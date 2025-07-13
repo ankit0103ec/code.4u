@@ -19,6 +19,8 @@ public class Solution {
     }
     
     private static int beauty(int x, int y) {
+        if (x == y) return 0; // Same numbers have no unique divisors
+        
         Set<Integer> divisorsX = getDivisors(x);
         Set<Integer> divisorsY = getDivisors(y);
         
@@ -42,6 +44,8 @@ public class Solution {
     
     private static Set<Integer> getDivisors(int n) {
         Set<Integer> divisors = new HashSet<>();
+        if (n <= 0) return divisors;
+        
         for (int i = 1; i <= Math.sqrt(n); i++) {
             if (n % i == 0) {
                 divisors.add(i);
