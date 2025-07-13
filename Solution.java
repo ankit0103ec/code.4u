@@ -5,14 +5,13 @@ import java.lang.Math;
 public class Solution {
     
     public static int get_ans(int N, List<Integer> A) {
-        // Write your code here
         long result = 0;
         int MOD = 1000000007;
         
         if (N <= 1) return 0;
         
-        for (int i = 0; i < N; i++) {
-            for (int j = i + 1; j < N; j++) {
+        for(int i = 0; i < N; i++) {
+            for(int j = i + 1; j < N; j++) {
                 result = (result + beauty(A.get(i), A.get(j))) % MOD;
             }
         }
@@ -29,14 +28,13 @@ public class Solution {
         
         int count = 0;
         
-        // Count divisors that divide exactly one of x or y
-        for (int d : divisorsX) {
+        for(int d : divisorsX) {
             if (!divisorsY.contains(d)) {
                 count++;
             }
         }
         
-        for (int d : divisorsY) {
+        for(int d : divisorsY) {
             if (!divisorsX.contains(d)) {
                 count++;
             }
@@ -49,14 +47,12 @@ public class Solution {
         Set<Integer> divisors = new HashSet<>();
         if (n <= 0) return divisors;
         
-        // Handle 1 specially
         if (n == 1) {
             divisors.add(1);
             return divisors;
         }
         
-        // Find all divisors efficiently
-        for (int i = 1; i <= Math.sqrt(n); i++) {
+        for(int i = 1; i <= Math.sqrt(n); i++) {
             if (n % i == 0) {
                 divisors.add(i);
                 if (i != n / i) {
@@ -64,6 +60,7 @@ public class Solution {
                 }
             }
         }
+        
         return divisors;
     }
 
@@ -72,7 +69,7 @@ public class Solution {
         int N = Integer.parseInt(scan.nextLine().trim());
         List<Integer> A = new ArrayList<>(N);
 
-        for(int j=0; j<N; j++) {
+        for(int j = 0; j < N; j++) {
             A.add(Integer.parseInt(scan.nextLine().trim()));
         }
         int result = get_ans(N, A);
