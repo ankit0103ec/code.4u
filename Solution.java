@@ -4,10 +4,9 @@ import java.lang.Math;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-public class Solution {
+class Solution {
     
     public static int Chef_Dishes(int N, int C, List<List<Integer>> A) {
-        // Create a list of chefs with their expertise and messiness
         List<int[]> chefs = new ArrayList<>();
         for (int i = 0; i < N; i++) {
             int expertise = A.get(i).get(0);
@@ -15,24 +14,37 @@ public class Solution {
             chefs.add(new int[]{expertise, messiness});
         }
         
-        // Sort chefs by messiness in ascending order for optimal strategy
-        // We want to use chefs with lower messiness first to keep complexity low
-        chefs.sort((a, b) -> Integer.compare(a[1], b[1]));
+        // Key insight: We want to use chefs in order that maximizes total chefs used
+        // Strategy: Among chefs that can cook at current complexity, 
+        // choose the one with minimum messiness to keep future complexity low
         
+        boolean[] used = new boolean[N];
         int currentComplexity = C;
         int chefsUsed = 0;
         
-        // Try to use each chef in the sorted order
-        for (int[] chef : chefs) {
-            int expertise = chef[0];
-            int messiness = chef[1];
+        while (true) {
+            int bestChef = -1;
+            int minMessiness = Integer.MAX_VALUE;
             
-            // Check if this chef can cook (expertise >= current complexity)
-            if (expertise >= currentComplexity) {
-                chefsUsed++;
-                // Update complexity after this chef cooks
-                currentComplexity = Math.max(currentComplexity, messiness);
+            // Find the chef with minimum messiness who can cook at current complexity
+            for (int i = 0; i < N; i++) {
+                if (!used[i] && chefs.get(i)[0] >= currentComplexity) {
+                    if (chefs.get(i)[1] < minMessiness) {
+                        minMessiness = chefs.get(i)[1];
+                        bestChef = i;
+                    }
+                }
             }
+            
+            // If no chef can cook, break
+            if (bestChef == -1) {
+                break;
+            }
+            
+            // Use the best chef
+            used[bestChef] = true;
+            chefsUsed++;
+            currentComplexity = Math.max(currentComplexity, chefs.get(bestChef)[1]);
         }
         
         return chefsUsed;
@@ -55,7 +67,6 @@ public class Solution {
             );
         }
         
-        // Call the Chef_Dishes method and print result
         int result = Chef_Dishes(N, C, A);
         System.out.println(result);
         
