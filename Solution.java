@@ -9,7 +9,6 @@ public class Solution {
         long result = 0;
         int MOD = 1000000007;
         
-        // Handle edge cases
         if (N <= 1) return 0;
         
         for (int i = 0; i < N; i++) {
@@ -22,7 +21,6 @@ public class Solution {
     }
     
     private static int beauty(int x, int y) {
-        // Handle edge cases
         if (x == y) return 0;
         if (x <= 0 || y <= 0) return 0;
         
