@@ -9,6 +9,9 @@ public class Solution {
         long result = 0;
         int MOD = 1000000007;
         
+        // Handle edge cases
+        if (N <= 1) return 0;
+        
         for (int i = 0; i < N; i++) {
             for (int j = i + 1; j < N; j++) {
                 result = (result + beauty(A.get(i), A.get(j))) % MOD;
@@ -19,10 +22,12 @@ public class Solution {
     }
     
     private static int beauty(int x, int y) {
-        if (x == y) return 0; // Same numbers have no unique divisors
+        // Handle edge cases
+        if (x == y) return 0;
+        if (x <= 0 || y <= 0) return 0;
         
-        Set<Integer> divisorsX = getDivisors(x);
-        Set<Integer> divisorsY = getDivisors(y);
+        Set<Integer> divisorsX = getDivisorsOptimized(x);
+        Set<Integer> divisorsY = getDivisorsOptimized(y);
         
         int count = 0;
         
@@ -42,10 +47,17 @@ public class Solution {
         return count;
     }
     
-    private static Set<Integer> getDivisors(int n) {
+    private static Set<Integer> getDivisorsOptimized(int n) {
         Set<Integer> divisors = new HashSet<>();
         if (n <= 0) return divisors;
         
+        // Handle 1 specially
+        if (n == 1) {
+            divisors.add(1);
+            return divisors;
+        }
+        
+        // Find all divisors efficiently
         for (int i = 1; i <= Math.sqrt(n); i++) {
             if (n % i == 0) {
                 divisors.add(i);
